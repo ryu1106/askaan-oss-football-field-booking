@@ -1,12 +1,17 @@
 import 'dart:io' show Platform;
 import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class ApiConstants {
-  // IP LAN hiện tại của máy tính chủ (dùng khi test trên điện thoại thật cùng mạng Wi-Fi)
-  static const String localLanIp = '192.168.2.20';
+  // ── Đọc từ file assets/env/.env (với fallback an toàn) ──────────────────
 
-  // Cổng máy chủ backend Node.js
-  static const String port = '5000';
+  /// IP LAN của máy tính chủ (dùng khi test trên điện thoại thật cùng Wi-Fi)
+  static String get localLanIp =>
+      dotenv.maybeGet('LAN_IP') ?? '192.168.2.20';
+
+  /// Cổng máy chủ backend Node.js
+  static String get port =>
+      dotenv.maybeGet('BACKEND_PORT') ?? '5000';
 
   // Đổi thành true nếu bạn test trên điện thoại thật cắm cáp / Wi-Fi
   static bool isPhysicalDevice = false;
@@ -16,16 +21,19 @@ class ApiConstants {
   /// - Web / Windows / macOS: Dùng localhost
   /// - Điện thoại thật Android/iOS: Dùng IP LAN nội bộ máy tính
   static String get baseUrl {
+    // Ưu tiên biến API_BASE_URL nếu được cấu hình tường minh trong .env
+    final envUrl = dotenv.maybeGet('API_BASE_URL');
+
     if (kIsWeb) {
-      return 'http://localhost:$port/api';
+      return envUrl ?? 'http://localhost:$port/api';
     }
     if (Platform.isAndroid) {
       if (isPhysicalDevice) {
-        return 'http://$localLanIp:$port/api';
+        return envUrl ?? 'http://$localLanIp:$port/api';
       }
-      return 'http://10.0.2.2:$port/api';
+      return envUrl ?? 'http://10.0.2.2:$port/api';
     }
-    return 'http://localhost:$port/api';
+    return envUrl ?? 'http://localhost:$port/api';
   }
 
   /// Máy chủ gốc để tải ảnh tĩnh (/uploads/...)

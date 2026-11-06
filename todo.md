@@ -99,7 +99,7 @@
 
 ---
 
-## PHẦN III. LỘ TRÌNH MỚI 2: THIẾT KẾ LẠI GIAO DIỆN SÁNG HƠN (LIGHT / BRIGHT THEME)
+## PHẦN III. LỘ TRÌNH MỚI 2: THIẾT KẾ LẠI GIAO DIỆN SÁNG HƠ N (LIGHT / BRIGHT THEME)
 
 > **Mục tiêu:** Chuyển đổi toàn bộ tông màu từ Dark Mode tối (`#0F172A`) sang **Light Theme thể thao tươi sáng, hiện đại, thoáng đãng** (Tone màu: Xanh cỏ sân bóng Emerald `#059669` + Trắng tinh khôi `#FFFFFF` + Nền xám nhẹ dịu mắt `#F8FAFC`). Phù hợp với ứng dụng thể thao ngoài trời, độ tương phản cao, dễ nhìn dưới ánh sáng mạnh.
 

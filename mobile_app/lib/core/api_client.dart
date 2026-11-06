@@ -6,14 +6,22 @@ class ApiClient {
   static final ApiClient _instance = ApiClient._internal();
   factory ApiClient() => _instance;
 
-  late final Dio dio;
+  Dio? _dio;
 
-  ApiClient._internal() {
-    dio = Dio(
+  ApiClient._internal();
+
+  /// Lazy getter — Dio chỉ được khởi tạo lần đầu tiên khi gọi API,
+  /// lúc đó dotenv đã được load xong nên ApiConstants.baseUrl trả đúng giá trị.
+  Dio get dio {
+    if (_dio != null) return _dio!;
+
+    final resolvedUrl = ApiConstants.baseUrl;
+
+    _dio = Dio(
       BaseOptions(
-        baseUrl: ApiConstants.baseUrl,
-        connectTimeout: const Duration(seconds: 15),
-        receiveTimeout: const Duration(seconds: 15),
+        baseUrl: resolvedUrl,
+        connectTimeout: const Duration(seconds: 20),
+        receiveTimeout: const Duration(seconds: 20),
         headers: {
           'Content-Type': 'application/json',
           'Accept': 'application/json',
@@ -22,7 +30,7 @@ class ApiClient {
     );
 
     // Interceptor tự động gán Bearer Token vào mọi request
-    dio.interceptors.add(
+    _dio!.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
           final prefs = await SharedPreferences.getInstance();
@@ -44,10 +52,11 @@ class ApiClient {
               e.type == DioExceptionType.receiveTimeout) {
             message = 'Hết thời gian chờ kết nối máy chủ.';
           } else if (e.type == DioExceptionType.connectionError) {
-            message = 'Không thể kết nối đến máy chủ. Vui lòng kiểm tra mạng hoặc backend.';
+            message =
+                'Không thể kết nối đến máy chủ ($resolvedUrl). '
+                'Vui lòng kiểm tra backend đã chạy chưa.';
           }
 
-          // Gán thông điệp lỗi tiếng Việt dễ hiểu
           return handler.next(
             DioException(
               requestOptions: e.requestOptions,
@@ -59,6 +68,10 @@ class ApiClient {
         },
       ),
     );
-  }
-}
 
+    return _dio!;
+  }
+
+  /// Trả về baseUrl đang được dùng — tiện để debug
+  String get currentBaseUrl => ApiConstants.baseUrl;
+}

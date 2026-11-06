@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../core/app_colors.dart';
 import '../providers/auth_provider.dart';
 import '../providers/pitch_provider.dart';
-import '../core/constants.dart';
 import '../models/pitch_model.dart';
 import 'login_screen.dart';
 import 'pitch_detail_screen.dart';
@@ -293,7 +291,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildPitchCard(PitchModel pitch, NumberFormat formatter) {
-    final imageUrl = ApiConstants.formatImageUrl(pitch.image);
     final typeBadge = pitch.type.toLowerCase().contains('7') ? 'SÂN 7 NGƯỜI' : 'SÂN 5 NGƯỜI';
 
     return Container(
@@ -301,13 +298,8 @@ class _HomeScreenState extends State<HomeScreen> {
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.3),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
+        border: Border.all(color: AppColors.border),
+        boxShadow: [AppColors.cardShadow],
       ),
       child: Material(
         color: Colors.transparent,
@@ -342,17 +334,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                       decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.8),
+                        color: Colors.white.withValues(alpha: 0.92),
                         borderRadius: BorderRadius.circular(8),
                         border: Border.all(
-                          color: pitch.type.toLowerCase().contains('7') ? Colors.cyanAccent : AppColors.primaryLight,
-                          width: 1.2,
+                          color: pitch.type.toLowerCase().contains('7')
+                              ? const Color(0xFF0EA5E9)  // Sky 500
+                              : AppColors.primary,
+                          width: 1.5,
                         ),
                       ),
                       child: Text(
                         typeBadge,
                         style: TextStyle(
-                          color: pitch.type.toLowerCase().contains('7') ? Colors.cyanAccent : Colors.white,
+                          color: pitch.type.toLowerCase().contains('7')
+                              ? const Color(0xFF0369A1) // Sky 700
+                              : AppColors.primaryDark,
                           fontSize: 11,
                           fontWeight: FontWeight.bold,
                         ),

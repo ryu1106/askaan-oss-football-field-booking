@@ -45,13 +45,8 @@ class _MainTabScreenState extends State<MainTabScreen> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.3),
-              blurRadius: 10,
-              offset: const Offset(0, -3),
-            ),
-          ],
+          border: const Border(top: BorderSide(color: AppColors.border)),
+          boxShadow: [AppColors.cardShadow],
         ),
         child: BottomNavigationBar(
           currentIndex: activeIndex,
@@ -129,7 +124,7 @@ class GuestPromptTab extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 'Bạn chưa đăng nhập',
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
               ),
               const SizedBox(height: 8),
               const Text(
@@ -206,7 +201,7 @@ class GuestProfileTab extends StatelessWidget {
             const SizedBox(height: 14),
             const Text(
               'Khách Vãng Lai',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
             ),
             const SizedBox(height: 4),
             const Text(
@@ -309,7 +304,7 @@ class ProfileTab extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               user?.fullName ?? 'Người dùng',
-              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.textPrimary),
             ),
             const SizedBox(height: 4),
             Container(
@@ -336,18 +331,12 @@ class ProfileTab extends StatelessWidget {
                 margin: const EdgeInsets.only(bottom: 16),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF0F766E), Color(0xFF115E59)],
+                    colors: [Color(0xFF059669), Color(0xFF047857)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(14),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.3),
-                      blurRadius: 8,
-                      offset: const Offset(0, 3),
-                    ),
-                  ],
+                  boxShadow: [AppColors.cardShadow],
                 ),
                 child: Material(
                   color: Colors.transparent,
@@ -468,7 +457,7 @@ class ProfileTab extends StatelessWidget {
             children: [
               Text(title, style: const TextStyle(color: AppColors.textMuted, fontSize: 11)),
               const SizedBox(height: 2),
-              Text(value, style: const TextStyle(color: Colors.white, fontSize: 14, fontWeight: FontWeight.w600)),
+              Text(value, style: const TextStyle(color: AppColors.textPrimary, fontSize: 14, fontWeight: FontWeight.w600)),
             ],
           ),
         ],
